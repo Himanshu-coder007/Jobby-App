@@ -1,9 +1,12 @@
-import React from 'react'
+import { Navigate } from 'react-router-dom'
+import Cookie from 'js-cookie'
 
-const ProtectedRoute = () => {
-  return (
-    <div>ProtectedRoute</div>
-  )
+const ProtectedRoute = ({ children }) => {
+  const token = Cookie.get('jwt_token')
+  if (token === undefined) {
+    return <Navigate to="/login" replace />
+  }
+  return children
 }
 
 export default ProtectedRoute

@@ -5,7 +5,7 @@ import NotFound from './components/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import JobItemDetails from './components/JobItemDetails'
 import Jobs from './components/Jobs'
-import './App.css'
+
 
 const App = () => (
   <Routes>
