@@ -8,22 +8,24 @@ const JobsFilterGroup = (props) => {
     changeSalaryRange,
   } = props;
 
+  const handleEmploymentTypeChange = (event) => {
+    const { value, checked } = event.target;
+    changeEmploymentType(value, checked);
+  };
+
   const getEmploymentTypeList = () => {
     return employmentTypesList.map((employ) => {
-      const onChangeEmployType = (event) =>
-        changeEmploymentType(event.target.value);
-
       return (
         <li
           className="flex items-center pb-5"
           key={employ.employmentTypeId}
-          onChange={onChangeEmployType}
         >
           <input
             type="checkbox"
             className="h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500"
             id={employ.employmentTypeId}
             value={employ.employmentTypeId}
+            onChange={handleEmploymentTypeChange}
           />
           <label
             htmlFor={employ.employmentTypeId}
@@ -53,13 +55,13 @@ const JobsFilterGroup = (props) => {
         <li
           className="flex items-center pb-5"
           key={salary.salaryRangeId}
-          onChange={onChangeSalary}
         >
           <input
             type="radio"
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
             id={salary.salaryRangeId}
             name="salary"
+            onChange={onChangeSalary}
           />
           <label
             htmlFor={salary.salaryRangeId}
