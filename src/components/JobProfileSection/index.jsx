@@ -139,7 +139,7 @@ class JobProfileSection extends Component {
           <input
             type="search"
             className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1"
-            placeholder="Search"
+            placeholder="Search and Enter"
             value={searchInput}
             onChange={this.changeSearchInput}
             onKeyDown={this.onKeyDown}

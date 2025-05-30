@@ -5,6 +5,7 @@ import { GoLocation } from 'react-icons/go'
 import { BsBriefcaseFill } from 'react-icons/bs'
 import { BiLinkExternal } from 'react-icons/bi'
 import { ThreeDots } from 'react-loader-spinner'
+import { useParams } from 'react-router-dom'
 
 import SkillsCard from '../SkillsCard'
 import Header from '../Header'
@@ -15,6 +16,11 @@ const apiStatusConstants = {
   inProgress: 'INPROGRESS',
   success: 'SUCCESS',
   failure: 'FAILURE',
+}
+
+// Wrapper component to use hooks with class component
+function withParams(Component) {
+  return props => <Component {...props} params={useParams()} />
 }
 
 class JobItemDetails extends Component {
@@ -62,8 +68,8 @@ class JobItemDetails extends Component {
     this.setState({
       apiStatus: apiStatusConstants.inProgress,
     })
-    const { match } = this.props
-    const { params } = match
+    
+    const { params } = this.props
     const { id } = params
 
     const jwtToken = Cookies.get('jwt_token')
@@ -74,19 +80,25 @@ class JobItemDetails extends Component {
       },
       method: 'GET',
     }
-    const response = await fetch(url, options)
-    if (response.ok === true) {
-      const data = await response.json()
-      const updatedData = this.getFormattedData(data.job_details)
-      const updatedSkillData = data.similar_jobs.map(eachSimilarJob =>
-        this.getFormattedSkillData(eachSimilarJob),
-      )
-      this.setState({
-        jobItemList: updatedData,
-        similarJobItemList: updatedSkillData,
-        apiStatus: apiStatusConstants.success,
-      })
-    } else {
+    try {
+      const response = await fetch(url, options)
+      if (response.ok) {
+        const data = await response.json()
+        const updatedData = this.getFormattedData(data.job_details)
+        const updatedSkillData = data.similar_jobs.map(eachSimilarJob =>
+          this.getFormattedSkillData(eachSimilarJob)
+        )
+        this.setState({
+          jobItemList: updatedData,
+          similarJobItemList: updatedSkillData,
+          apiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({
+          apiStatus: apiStatusConstants.failure,
+        })
+      }
+    } catch (error) {
       this.setState({
         apiStatus: apiStatusConstants.failure,
       })
@@ -104,8 +116,8 @@ class JobItemDetails extends Component {
       title,
       rating,
       packagePerAnnum,
-      lifeAtCompany,
-      skills,
+      lifeAtCompany = {},
+      skills = [],
     } = jobItemList
     const { description, imageUrl } = lifeAtCompany
 
@@ -247,4 +259,5 @@ class JobItemDetails extends Component {
   }
 }
 
-export default JobItemDetails
+// Export the wrapped component
+export default withParams(JobItemDetails)
