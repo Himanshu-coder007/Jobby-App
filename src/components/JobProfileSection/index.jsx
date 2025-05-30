@@ -134,11 +134,11 @@ class JobProfileSection extends Component {
     const jobsDisplay = jobsList.length > 0;
 
     return jobsDisplay ? (
-      <div className="w-full">
-        <div className="flex self-start w-[500px] bg-transparent rounded-lg p-2 outline-none ml-5 my-4 border border-gray-500">
+      <div className="w-full flex flex-col items-center">
+        <div className="flex w-full max-w-[500px] bg-transparent rounded-lg p-2 outline-none my-4 border border-gray-500">
           <input
             type="search"
-            className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1 w-[450px]"
+            className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1"
             placeholder="Search"
             value={searchInput}
             onChange={this.changeSearchInput}
@@ -153,18 +153,18 @@ class JobProfileSection extends Component {
             <BsSearch className="text-white text-xl" />
           </button>
         </div>
-        <ul className="list-none flex flex-wrap">
+        <ul className="list-none flex flex-col w-full items-center">
           {jobsList.map(eachData => (
             <JobCard key={eachData.id} jobDetails={eachData} />
           ))}
         </ul>
       </div>
     ) : (
-      <div className="flex flex-col justify-center items-center w-[1000px]">
-        <div className="flex self-start w-[500px] bg-transparent rounded-lg p-2 outline-none ml-5 my-4 border border-gray-500">
+      <div className="flex flex-col justify-center items-center w-full">
+        <div className="flex w-full max-w-[500px] bg-transparent rounded-lg p-2 outline-none my-4 border border-gray-500">
           <input
             type="search"
-            className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1 w-[450px]"
+            className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1"
             placeholder="Search"
             value={searchInput}
             onChange={this.changeSearchInput}
@@ -193,7 +193,7 @@ class JobProfileSection extends Component {
   };
 
   renderFailureView = () => (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center w-full">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
@@ -217,7 +217,7 @@ class JobProfileSection extends Component {
   );
 
   renderLoadingView = () => (
-    <div className="flex justify-center items-center mt-[200px]" data-testid="loader">
+    <div className="flex justify-center items-center w-full h-[50vh]" data-testid="loader">
       <ThreeDots color="#ffffff" height={50} width={50} />
     </div>
   );
@@ -239,8 +239,8 @@ class JobProfileSection extends Component {
 
   render() {
     return (
-      <div className="p-4 flex justify-between">
-        <div className="flex flex-col">
+      <div className="p-4 flex flex-col md:flex-row gap-12">
+        <div className="w-full md:w-1/4 mb-6 md:mb-0 md:pr-4">
           <JobsFilterGroup
             employmentTypesList={employmentTypesList}
             salaryRangesList={salaryRangesList}
@@ -248,8 +248,10 @@ class JobProfileSection extends Component {
             changeSalaryRange={this.changeSalaryRange}
           />
         </div>
-        <div className="flex flex-col items-end w-[60%]">
-          {this.renderJobProfileDetailsList()}
+        <div className="w-full md:w-3/4 flex justify-center">
+          <div className="w-full max-w-4xl">
+            {this.renderJobProfileDetailsList()}
+          </div>
         </div>
       </div>
     );
