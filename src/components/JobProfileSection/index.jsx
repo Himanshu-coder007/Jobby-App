@@ -154,8 +154,8 @@ class JobProfileSection extends Component {
     const { jobsList, searchInput } = this.state;
     const jobsDisplay = jobsList.length > 0;
 
-    return jobsDisplay ? (
-      <div className="w-full flex flex-col items-center">
+    return (
+      <div className="w-full h-full">
         <div className="flex w-full max-w-[500px] bg-transparent rounded-lg p-2 outline-none my-4 border border-gray-500">
           <input
             type="search"
@@ -174,56 +174,43 @@ class JobProfileSection extends Component {
             <BsSearch className="text-white text-xl" />
           </button>
         </div>
-        <ul className="list-none flex flex-col w-full items-center">
-          {jobsList.map(eachData => (
-            <JobCard key={eachData.id} jobDetails={eachData} />
-          ))}
-        </ul>
-      </div>
-    ) : (
-      <div className="flex flex-col justify-center items-center w-full">
-        <div className="flex w-full max-w-[500px] bg-transparent rounded-lg p-2 outline-none my-4 border border-gray-500">
-          <input
-            type="search"
-            className="bg-transparent text-white font-roboto text-sm font-medium border-none outline-none flex-grow px-4 py-1"
-            placeholder="Search"
-            value={searchInput}
-            onChange={this.changeSearchInput}
-            onKeyDown={this.onKeyDown}
-          />
-          <button
-            type="button"
-            data-testid="searchButton"
-            className="bg-transparent border-none"
-            onClick={this.getJobDetails}
-          >
-            <BsSearch className="text-white text-xl" />
-          </button>
-        </div>
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
-          alt="no jobs"
-          className="w-[400px]"
-        />
-        <h1 className="text-white font-roboto text-4xl font-bold mt-4">No Jobs Found</h1>
-        <p className="text-white font-roboto text-lg mt-2">
-          We could not find any jobs. Try other filters.
-        </p>
+        
+        {jobsDisplay ? (
+          <ul className="list-none flex flex-col w-full items-center gap-4">
+            {jobsList.map(eachData => (
+              <JobCard key={eachData.id} jobDetails={eachData} />
+            ))}
+          </ul>
+        ) : (
+          <div className="flex flex-col justify-center items-center w-full h-[calc(100%-60px)]">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
+              alt="no jobs"
+              className="w-[400px]"
+            />
+            <h1 className="text-white font-roboto text-2xl md:text-4xl font-bold mt-4 text-center">
+              No Jobs Found
+            </h1>
+            <p className="text-white font-roboto text-base md:text-lg mt-2 text-center">
+              We could not find any jobs. Try other filters.
+            </p>
+          </div>
+        )}
       </div>
     );
   };
 
   renderFailureView = () => (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className="flex flex-col justify-center items-center w-full h-full">
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
         className="w-[400px]"
       />
-      <h1 className="text-white font-roboto text-4xl font-bold mt-4">
+      <h1 className="text-white font-roboto text-2xl md:text-4xl font-bold mt-4 text-center">
         Oops! Something Went Wrong
       </h1>
-      <p className="text-white font-roboto text-xl mt-2">
+      <p className="text-white font-roboto text-base md:text-xl mt-2 text-center">
         We cannot seem to find the page you are looking for
       </p>
       <button
@@ -262,8 +249,8 @@ class JobProfileSection extends Component {
     const { employmentType, salaryRange } = this.state;
 
     return (
-      <div className="p-4 flex flex-col md:flex-row gap-12">
-        <div className="w-full md:w-1/4 mb-6 md:mb-0 md:pr-4">
+      <div className="p-4 flex flex-col md:flex-row gap-8 min-h-[calc(100vh-150px)]">
+        <div className="w-full md:w-1/4 mb-6 md:mb-0">
           <JobsFilterGroup
             employmentTypesList={employmentTypesList}
             salaryRangesList={salaryRangesList}
@@ -275,10 +262,8 @@ class JobProfileSection extends Component {
             onResetFilters={this.handleResetFilters}
           />
         </div>
-        <div className="w-full md:w-3/4 flex justify-center">
-          <div className="w-full max-w-4xl">
-            {this.renderJobProfileDetailsList()}
-          </div>
+        <div className="w-full md:w-3/4">
+          {this.renderJobProfileDetailsList()}
         </div>
       </div>
     );
