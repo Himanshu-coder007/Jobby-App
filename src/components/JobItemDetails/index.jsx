@@ -122,43 +122,43 @@ class JobItemDetails extends Component {
     const { description, imageUrl } = lifeAtCompany
 
     return (
-      <div className="bg-black min-h-screen p-4 md:p-8">
-        <div className="bg-gray-800 rounded-xl p-6 md:p-8 mb-6">
+      <div className="bg-black min-h-screen p-4">
+        <div className="bg-gray-800 rounded-lg p-4 mb-8 max-w-3xl mx-auto">
           <div className="flex items-start">
             <img
               src={companyLogoUrl}
               alt="job details company logo"
-              className="w-16 h-16 md:w-20 md:h-20 mr-4"
+              className="w-12 h-12 mr-3"
             />
             <div>
-              <h1 className="text-white text-xl md:text-2xl font-bold mb-2">{title}</h1>
+              <h1 className="text-white text-lg font-bold mb-1">{title}</h1>
               <div className="flex items-center">
-                <AiFillStar className="text-yellow-400 text-xl" />
-                <p className="text-white ml-2 text-lg">{rating}</p>
+                <AiFillStar className="text-yellow-400 text-md" />
+                <p className="text-white ml-1 text-sm">{rating}</p>
               </div>
             </div>
           </div>
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-6 mb-4">
-            <div className="flex flex-wrap gap-4 md:gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mt-3 mb-2">
+            <div className="flex flex-wrap gap-3">
               <div className="flex items-center">
-                <GoLocation className="text-white text-lg" />
-                <p className="text-white ml-2 text-base">{location}</p>
+                <GoLocation className="text-white text-sm" />
+                <p className="text-white ml-1 text-sm">{location}</p>
               </div>
               <div className="flex items-center">
-                <BsBriefcaseFill className="text-white text-lg" />
-                <p className="text-white ml-2 text-base">{employmentType}</p>
+                <BsBriefcaseFill className="text-white text-sm" />
+                <p className="text-white ml-1 text-sm">{employmentType}</p>
               </div>
             </div>
-            <p className="text-white text-lg font-medium mt-2 md:mt-0">{packagePerAnnum}</p>
+            <p className="text-white text-sm font-medium mt-1 md:mt-0">{packagePerAnnum}</p>
           </div>
           
-          <hr className="border-gray-600 my-4" />
+          <hr className="border-gray-600 my-2" />
           
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
-            <h1 className="text-white text-xl font-bold">Description</h1>
+          <div className="flex justify-between items-center mb-2">
+            <h1 className="text-white text-md font-bold">Description</h1>
             <a 
-              className="text-indigo-400 flex items-center text-base font-semibold hover:underline"
+              className="text-indigo-400 flex items-center text-sm font-semibold hover:underline"
               href={companyWebsiteUrl}
               target="_blank"
               rel="noreferrer"
@@ -168,28 +168,32 @@ class JobItemDetails extends Component {
             </a>
           </div>
           
-          <p className="text-gray-300 text-base leading-relaxed mb-6">{jobDescription}</p>
+          <p className="text-gray-300 text-sm leading-relaxed mb-3 line-clamp-4 hover:line-clamp-none">
+            {jobDescription}
+          </p>
           
-          <h1 className="text-white text-xl font-bold mb-4">Skills</h1>
-          <ul className="flex flex-wrap gap-4 md:gap-6 mb-8">
+          <h1 className="text-white text-md font-bold mb-2">Skills</h1>
+          <ul className="flex flex-wrap gap-2 mb-3">
             {skills.map(eachSkill => (
-              <SkillsCard key={eachSkill.name} skillDetails={eachSkill} />
+              <SkillsCard key={eachSkill.name} skillDetails={eachSkill} compact />
             ))}
           </ul>
           
-          <h1 className="text-white text-xl font-bold mb-4">Life at company</h1>
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8">
-            <p className="text-gray-300 text-base leading-relaxed flex-1">{description}</p>
+          <h1 className="text-white text-md font-bold mb-2">Life at company</h1>
+          <div className="flex flex-col md:flex-row gap-3">
+            <p className="text-gray-300 text-sm leading-relaxed flex-1 line-clamp-4 hover:line-clamp-none">
+              {description}
+            </p>
             <img
               src={imageUrl}
               alt="life at company"
-              className="w-full md:w-80 h-auto rounded-lg object-cover"
+              className="w-full md:w-48 h-auto rounded-lg object-cover"
             />
           </div>
         </div>
         
-        <h1 className="text-white text-2xl font-bold mb-6">Similar Jobs</h1>
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <h1 className="text-white text-xl font-bold mb-4 max-w-3xl mx-auto text-center my-4">Similar Jobs</h1>
+        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl mx-auto cursor-pointer">
           {similarJobItemList.map(eachItem => (
             <SimilarJobItem key={eachItem.id} jobDetails={eachItem} />
           ))}
@@ -203,15 +207,15 @@ class JobItemDetails extends Component {
       <img
         src="https://assets.ccbp.in/frontend/react-js/failure-img.png"
         alt="failure view"
-        className="w-full max-w-md mb-6"
+        className="w-full max-w-md mb-4"
       />
-      <h1 className="text-white text-2xl font-bold mb-2 text-center">Oops! Something Went Wrong</h1>
-      <p className="text-gray-400 text-lg mb-6 text-center">
+      <h1 className="text-white text-xl font-bold mb-2 text-center">Oops! Something Went Wrong</h1>
+      <p className="text-gray-400 text-base mb-4 text-center">
         We cannot seem to find the page you are looking for
       </p>
       <button
         type="button"
-        className="bg-blue-600 text-white px-6 py-2 rounded font-medium hover:bg-blue-700 transition-colors"
+        className="bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 transition-colors text-sm"
         onClick={this.getJobItem}
       >
         Retry
@@ -222,8 +226,8 @@ class JobItemDetails extends Component {
   renderLoadingView = () => (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <ThreeDots 
-        height="80" 
-        width="80" 
+        height="60" 
+        width="60" 
         radius="9"
         color="#4fa94d" 
         ariaLabel="three-dots-loading"
