@@ -6,6 +6,10 @@ const JobsFilterGroup = (props) => {
     salaryRangesList,
     changeEmploymentType,
     changeSalaryRange,
+    selectedEmploymentTypes,
+    selectedSalaryRange,
+    onApplyFilters,
+    onResetFilters
   } = props;
 
   const handleEmploymentTypeChange = (event) => {
@@ -25,6 +29,7 @@ const JobsFilterGroup = (props) => {
             className="h-4 w-4 text-indigo-600 rounded focus:ring-indigo-500"
             id={employ.employmentTypeId}
             value={employ.employmentTypeId}
+            checked={selectedEmploymentTypes.includes(employ.employmentTypeId)}
             onChange={handleEmploymentTypeChange}
           />
           <label
@@ -61,6 +66,7 @@ const JobsFilterGroup = (props) => {
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500"
             id={salary.salaryRangeId}
             name="salary"
+            checked={selectedSalaryRange === salary.salaryRangeId}
             onChange={onChangeSalary}
           />
           <label
@@ -90,6 +96,22 @@ const JobsFilterGroup = (props) => {
       {renderEmploymentType()}
       <hr className="w-full border border-gray-500 my-4" />
       {renderSalaryRange()}
+      <div className="flex gap-4 mt-6">
+        <button
+          type="button"
+          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors"
+          onClick={onApplyFilters}
+        >
+          Apply
+        </button>
+        <button
+          type="button"
+          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
+          onClick={onResetFilters}
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
 };

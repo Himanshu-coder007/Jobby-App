@@ -55,7 +55,9 @@ class JobProfileSection extends Component {
     jobsList: [],
     searchInput: '',
     employmentType: [],
-    salaryRange: 0,
+    salaryRange: '',
+    appliedEmploymentType: [],
+    appliedSalaryRange: '',
     apiStatus: apiStatusConstants.initial,
   };
 
@@ -69,8 +71,8 @@ class JobProfileSection extends Component {
     });
 
     const jwtToken = Cookies.get('jwt_token');
-    const { salaryRange, employmentType, searchInput } = this.state;
-    const url = `https://apis.ccbp.in/jobs?employment_type=${employmentType.join()}&minimum_package=${salaryRange}&search=${searchInput}`;
+    const { appliedEmploymentType, appliedSalaryRange, searchInput } = this.state;
+    const url = `https://apis.ccbp.in/jobs?employment_type=${appliedEmploymentType.join()}&minimum_package=${appliedSalaryRange}&search=${searchInput}`;
     const options = {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -119,7 +121,7 @@ class JobProfileSection extends Component {
   };
 
   changeSalaryRange = salary => {
-    this.setState({ salaryRange: salary }, this.getJobDetails);
+    this.setState({ salaryRange: salary });
   };
 
   changeEmploymentType = (type, isChecked) => {
@@ -129,6 +131,22 @@ class JobProfileSection extends Component {
         : prev.employmentType.filter(t => t !== type);
       
       return { employmentType: updatedEmploymentTypes };
+    });
+  };
+
+  handleApplyFilters = () => {
+    this.setState(prev => ({
+      appliedEmploymentType: [...prev.employmentType],
+      appliedSalaryRange: prev.salaryRange
+    }), this.getJobDetails);
+  };
+
+  handleResetFilters = () => {
+    this.setState({
+      employmentType: [],
+      salaryRange: '',
+      appliedEmploymentType: [],
+      appliedSalaryRange: ''
     }, this.getJobDetails);
   };
 
@@ -241,6 +259,8 @@ class JobProfileSection extends Component {
   };
 
   render() {
+    const { employmentType, salaryRange } = this.state;
+
     return (
       <div className="p-4 flex flex-col md:flex-row gap-12">
         <div className="w-full md:w-1/4 mb-6 md:mb-0 md:pr-4">
@@ -249,6 +269,10 @@ class JobProfileSection extends Component {
             salaryRangesList={salaryRangesList}
             changeEmploymentType={this.changeEmploymentType}
             changeSalaryRange={this.changeSalaryRange}
+            selectedEmploymentTypes={employmentType}
+            selectedSalaryRange={salaryRange}
+            onApplyFilters={this.handleApplyFilters}
+            onResetFilters={this.handleResetFilters}
           />
         </div>
         <div className="w-full md:w-3/4 flex justify-center">
