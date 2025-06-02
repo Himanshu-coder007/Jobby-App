@@ -45,6 +45,7 @@ class JobItemDetails extends Component {
     rating: data.rating,
     location: data.location,
     title: data.title,
+    packagePerAnnum: data.package_per_annum,
   })
 
   getFormattedData = data => ({
@@ -113,6 +114,21 @@ class JobItemDetails extends Component {
     navigate(-1)
   }
 
+  getFormattedPackage = (packageStr, employmentType) => {
+    if (employmentType.toLowerCase() === 'internship') {
+      // Extract numeric value from package string (e.g., "10 LPA" -> 10)
+      const numericValue = parseInt(packageStr.split(' ')[0]);
+      
+      // Calculate stipend based on package value (8k per LPA for first 5 LPA, then 6k per additional LPA)
+      const baseStipend = numericValue <= 5 
+        ? numericValue * 8 
+        : 40 + (numericValue - 5) * 6;
+      
+      return `${baseStipend/10} k/month`;
+    }
+    return packageStr;
+  }
+
   renderJobItemDetails = () => {
     const { jobItemList, similarJobItemList } = this.state
     const {
@@ -128,6 +144,8 @@ class JobItemDetails extends Component {
       skills = [],
     } = jobItemList
     const { description, imageUrl } = lifeAtCompany
+
+    const formattedPackage = this.getFormattedPackage(packagePerAnnum, employmentType);
 
     return (
       <div className="bg-black min-h-screen p-4">
@@ -167,7 +185,7 @@ class JobItemDetails extends Component {
                   <p className="text-white ml-1 text-base">{employmentType}</p>
                 </div>
               </div>
-              <p className="text-white text-base font-medium mt-2 md:mt-0">{packagePerAnnum}</p>
+              <p className="text-white text-base font-medium mt-2 md:mt-0">{formattedPackage}</p>
             </div>
             
             <hr className="border-gray-600 my-3" />

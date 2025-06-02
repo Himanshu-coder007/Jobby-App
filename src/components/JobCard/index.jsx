@@ -15,6 +15,24 @@ const JobCard = (props) => {
     jobDescription,
   } = jobDetails
 
+  // Format package based on employment type
+  const getFormattedPackage = () => {
+    if (employmentType.toLowerCase() === 'internship') {
+      // Extract numeric value from package string (e.g., "10 LPA" -> 10)
+      const numericValue = parseInt(packagePerAnnum.split(' ')[0]);
+      
+      // Calculate stipend based on package value (8k per LPA for first 5 LPA, then 6k per additional LPA)
+      const baseStipend = numericValue <= 5 
+        ? numericValue * 8 
+        : 40 + (numericValue - 5) * 6;
+      
+      return `${baseStipend/10} k/month`;
+    }
+    return packagePerAnnum;
+  }
+
+  const formattedPackage = getFormattedPackage();
+
   return (
     <Link 
       to={`/jobs/${id}`} 
@@ -47,7 +65,7 @@ const JobCard = (props) => {
               <p className="text-white ml-2 text-sm md:text-base">{employmentType}</p>
             </div>
           </div>
-          <p className="text-white text-base md:text-lg font-medium">{packagePerAnnum}</p>
+          <p className="text-white text-base md:text-lg font-medium">{formattedPackage}</p>
         </div>
         
         <hr className="border-gray-600 my-4" />
