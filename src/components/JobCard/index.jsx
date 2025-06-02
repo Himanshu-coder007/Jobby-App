@@ -18,20 +18,25 @@ const JobCard = (props) => {
   // Format package based on employment type
   const getFormattedPackage = () => {
     if (employmentType.toLowerCase() === 'internship') {
-      // Extract numeric value from package string (e.g., "10 LPA" -> 10)
       const numericValue = parseInt(packagePerAnnum.split(' ')[0]);
-      
-      // Calculate stipend based on package value (8k per LPA for first 5 LPA, then 6k per additional LPA)
       const baseStipend = numericValue <= 5 
         ? numericValue * 8 
         : 40 + (numericValue - 5) * 6;
-      
       return `${baseStipend/10} k/month`;
     }
     return packagePerAnnum;
   }
 
+  // Modify description for internship positions
+  const getFormattedDescription = () => {
+    if (employmentType.toLowerCase() === 'internship') {
+      return `This internship opportunity is perfect for students or recent graduates looking to gain hands-on experience in ${title}. You'll work alongside experienced professionals, contribute to real projects, and develop valuable skills for your future career.`;
+    }
+    return jobDescription;
+  }
+
   const formattedPackage = getFormattedPackage();
+  const formattedDescription = getFormattedDescription();
 
   return (
     <Link 
@@ -72,7 +77,7 @@ const JobCard = (props) => {
         
         <h1 className="text-white text-xl font-bold mb-3">Description</h1>
         <p className="text-gray-300 text-sm md:text-base leading-relaxed line-clamp-3">
-          {jobDescription}
+          {formattedDescription}
         </p>
       </li>
     </Link>

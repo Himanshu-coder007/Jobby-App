@@ -116,17 +116,27 @@ class JobItemDetails extends Component {
 
   getFormattedPackage = (packageStr, employmentType) => {
     if (employmentType.toLowerCase() === 'internship') {
-      // Extract numeric value from package string (e.g., "10 LPA" -> 10)
       const numericValue = parseInt(packageStr.split(' ')[0]);
-      
-      // Calculate stipend based on package value (8k per LPA for first 5 LPA, then 6k per additional LPA)
       const baseStipend = numericValue <= 5 
         ? numericValue * 8 
         : 40 + (numericValue - 5) * 6;
-      
       return `${baseStipend/10} k/month`;
     }
     return packageStr;
+  }
+
+  getFormattedDescription = (description, employmentType, title) => {
+    if (employmentType.toLowerCase() === 'internship') {
+      return `This internship opportunity in ${title} is designed for students and recent graduates looking to gain practical experience. You'll work under the guidance of experienced professionals, contribute to meaningful projects, and develop essential industry skills. No prior professional experience is required - we're looking for enthusiastic learners with basic knowledge in relevant areas.`;
+    }
+    return description;
+  }
+
+  getFormattedLifeDescription = (description, employmentType) => {
+    if (employmentType.toLowerCase() === 'internship') {
+      return `Our internship program fosters a supportive learning environment. Interns receive mentorship, participate in training sessions, and get exposure to real-world projects. ${description}`;
+    }
+    return description;
   }
 
   renderJobItemDetails = () => {
@@ -146,6 +156,8 @@ class JobItemDetails extends Component {
     const { description, imageUrl } = lifeAtCompany
 
     const formattedPackage = this.getFormattedPackage(packagePerAnnum, employmentType);
+    const formattedDescription = this.getFormattedDescription(jobDescription, employmentType, title);
+    const formattedLifeDescription = this.getFormattedLifeDescription(description, employmentType);
 
     return (
       <div className="bg-black min-h-screen p-4">
@@ -204,7 +216,7 @@ class JobItemDetails extends Component {
             </div>
             
             <p className="text-gray-300 text-base leading-relaxed mb-4 line-clamp-4 hover:line-clamp-none">
-              {jobDescription}
+              {formattedDescription}
             </p>
             
             <h1 className="text-white text-lg font-bold mb-3">Skills</h1>
@@ -217,7 +229,7 @@ class JobItemDetails extends Component {
             <h1 className="text-white text-lg font-bold mb-3">Life at company</h1>
             <div className="flex flex-col md:flex-row gap-6 items-center">
               <p className="text-gray-300 text-base leading-relaxed flex-1 line-clamp-4 hover:line-clamp-none">
-                {description}
+                {formattedLifeDescription}
               </p>
               <img
                 src={imageUrl}
